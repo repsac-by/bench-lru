@@ -34,6 +34,15 @@ const precise = require('precise'),
   times = 5,
   x = 1e6;
 
+  let data = [];
+  const genPair = function () {
+    let key = crypto.randomBytes(10).toString('base64');
+    let value = Math.random();
+    return [key, value];
+  }
+
+  for (let i = 0; i < evicts; i++) data.push(genPair());
+
 self.onmessage = function (ev) {
   const id = ev.data,
     lru = caches[id](num),
@@ -54,14 +63,6 @@ self.onmessage = function (ev) {
     };
 
   let n = -1;
-  let data = [];
-  const genPair = function () {
-    let key = crypto.randomBytes(10).toString('base64');
-    let value = Math.random();
-    return [key, value];
-  }
-
-  for (let i = 0; i < evicts; i++) data.push(genPair());
 
   while (++n < times) {
     let stimer = precise().start();
