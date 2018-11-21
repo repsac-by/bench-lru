@@ -57,7 +57,7 @@ self.onmessage = function (ev) {
   let data = [];
   const genPair = function () {
     let key = crypto.randomBytes(10).toString('base64');
-    let value = Math.random;
+    let value = Math.random();
     return [key, value];
   }
 
