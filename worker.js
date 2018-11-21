@@ -74,7 +74,7 @@ self.onmessage = function (ev) {
     time.get1.push(gtimer.stop().diff() / x);
 
     let utimer = precise().start();
-    for (let i = 0; i < num; i++) lru.set(data[i][0], data[i][1]);
+    for (let i = 0; i < num; i++) lru.set(data[i][0], data[i][1] + 1);
     time.update.push(utimer.stop().diff() / x);
 
     const g2timer = precise().start();
