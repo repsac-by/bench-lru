@@ -69,7 +69,7 @@ self.onmessage = function (ev) {
     time.set.push(stimer.stop().diff() / x);
 
     let gtimer = precise().start();
-    for (let i = 0; i < num; i++) lru.get(data[i][0]);
+    for (let i = 0; i < evicts; i++) lru.get(data[i][0]);
     time.get1.push(gtimer.stop().diff() / x);
 
     let utimer = precise().start();
@@ -77,7 +77,7 @@ self.onmessage = function (ev) {
     time.update.push(utimer.stop().diff() / x);
 
     const g2timer = precise().start();
-    for (let i = 0; i < num; i++) lru.get(data[i][0]);
+    for (let i = 0; i < evicts; i++) lru.get(data[i][0]);
     time.get2.push(g2timer.stop().diff() / x);
 
     let etimer = precise().start();
