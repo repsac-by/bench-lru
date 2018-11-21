@@ -1,6 +1,7 @@
 'use strict';
 
 const precise = require('precise'),
+  crypto = require('crypto'),
   retsu = require('retsu'),
   LRUCache = require('lru_cache').LRUCache,
   Simple = require('simple-lru-cache'),
@@ -53,26 +54,34 @@ self.onmessage = function (ev) {
     };
 
   let n = -1;
+  let data = [];
+  const genPair = function () {
+    let key = crypto.randomBytes(10).toString('base64');
+    let value = Math.random;
+    return [key, value];
+  }
+
+  for (let i = 0; i < evicts; i++) data.push(genPair());
 
   while (++n < times) {
     let stimer = precise().start();
-    for (let i = 0; i < num; i++) lru.set(i, Math.random());
+    for (let i = 0; i < num; i++) lru.set(data[i][0], data[i][1]);
     time.set.push(stimer.stop().diff() / x);
 
     let gtimer = precise().start();
-    for (let i = 0; i < num; i++) lru.get(i);
+    for (let i = 0; i < num; i++) lru.get(data[i][0]);
     time.get1.push(gtimer.stop().diff() / x);
 
     let utimer = precise().start();
-    for (let i = 0; i < num; i++) lru.set(i, Math.random());
+    for (let i = 0; i < num; i++) lru.set(data[i][0], data[i][1]);
     time.update.push(utimer.stop().diff() / x);
 
     const g2timer = precise().start();
-    for (let i = 0; i < num; i++) lru.get(i);
+    for (let i = 0; i < num; i++) lru.get(data[i][0]);
     time.get2.push(g2timer.stop().diff() / x);
 
     let etimer = precise().start();
-    for (let i = num; i < evicts; i++) lru.set(i, Math.random());
+    for (let i = num; i < evicts; i++) lru.set(data[i][0], data[i][1]);
     time.evict.push(etimer.stop().diff() / x);
   }
 

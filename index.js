@@ -11,7 +11,7 @@ const Worker = require('tiny-worker'),
     'lru-cache',
     'lru-fast',
     'lru_cache',
-    'mkc',
+    //'mkc',    // stuck
     'modern-lru',
     'quick-lru',
     'secondary-cache',
